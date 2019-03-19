@@ -1,25 +1,24 @@
 # Android-Code-Style-Convention
 
+# Android开发工具&开发框架
+
+为项目结构统一，IDE请使用Android Studio进行开发
+
+使用MVVM作为开发框架
+
 # Android 命名&代码 参考规范
+
 参考规范，即具备了一定的灵活性，不是说要完全按照这样来写，但是越符合该规范要求对代码的可读性和可维护性可起到积极作用
 
----
-
-# Java Style
-Android开发使用Java语言，因此大部分代码样式都是遵照Java Style，因此不要出现C/C++ Style
-
-- 参考 [Google Java Style](http://google.github.io/styleguide/javaguide.html#s2.3.1-whitespace-characters)
-
----
-
-# Android Java Style
-除了 **Google Java Style** 里面说的大部分外约定外，Android也做了部分约定修改
-
-参考：[Android Code Style Guidelines for Contributors](https://source.android.com/source/code-style.html#java-style-rules)
-
-下面为几个不同于 **Google Java Style** 的地方
+- **Activity** 命名一律使用 **模块名+Activity** 的方式。例如，**LoginActivity、SignupActivity**；
+-  **Fragment** 命名一律使用 **模块名+Fragment** 的方式；
+- 自定义**View**：Custom(建议)+功能名+View/ViewGroup(具体的组件名称)。例如：**CustomImageScroller**、**CustomRatingBar**。
+-  **Widget** 小组件：**ScanWidget、WeatherWidget**。
+-  **Dialog**对话框：**功能名+Dialog**。例如：**LoginDialog、ProgressDialog** 
+- 尽量在每一个Activity或类中加入TAG,方便我们查看Activity的信息。(Tip : 使用Android Studio提供的快捷键**logt**可快速生成当前 类的常量)
 
 ## 代码缩进4个字符，语句换行缩进8个字符
+
 ```java
 if (condition) {
 ····body()；// 4个字符
@@ -30,13 +29,11 @@ Instrument i =
 
 ```
 
-## 属性字段命名约定
+## 属性字段命名约定（以Java为例）
 
 - 非公共的，非全局的字段命名以 m 开头
 - 静态的static 的字段，s 开头
 - 其他字段小写开头
-- 公共的静态final字段，public static final，即常量，全部大写下划线
-
 
 ```java
 public class MyClass {
@@ -63,6 +60,7 @@ public class User {
 ```
 
 ## Android 判断语句样式
+
 请使用下面两种:
 
 ```java
@@ -72,45 +70,63 @@ if (condition) {
 
 if (condition) body();
 ```
----
 
-# Java Style 上比较重要，或常忽略的地方
+------
+
+
+
+# 请勿直接使用以下常量！
+
+1. Intent传递Key，使用Extras.xxxx
+2. 本地存储数据Key，使用DataKey.xxx
+3. WebView跳转的链接地址，使用HtmlLink.xxx or HtmlLink.getxxxLink()
+
+# Code Style 上比较重要，或常忽略的地方
+
 - 文件编码，统一 utf-8
+
 - 所有的声明缩进，换行缩进全部用空格 space，不用 tab。IDE里可以设置
+
 - 代码列宽一般控制在 80 到 100 个字符长度
+
 - 包导入 Import 的优化，例如顺序，不要导入百搭型。一般使用IDE可以优化 Import，Eclipse快捷键应该是ctrl(cmd)+shift+o，Android Studio类似
+
 - 垂直方向上的空行，主要是用于逻辑分组：
 
-	```java
-	private TextView mName;
-	private TextView mAge;
-										// 垂直空行
-	public String name;
-	public int age;
-										// 垂直空行
-	public void createUser() {
-		// .....
-	}
-	
-	```
+  ```java
+  private TextView mName;
+  private TextView mAge;
+  									// 垂直空行
+  public String name;
+  public int age;
+  									// 垂直空行
+  public void createUser() {
+  	// .....
+  }
+  
+  ```
+
 - 一个变量，一个声明，举例为是不好的方式 `int a, b; // bad`
 
-	```java
-	int a; // good
-	int b;
-	```
+  ```java
+  int a; // good
+  int b;
+  ```
+
 - javadoc的使用，尽量给 public/protected 的方法加上 javadoc
-	
-	```java
-	/**
-	* This is a javadoc
-	*/
-	public void method() {}
-	
-	```
+
+  ```java
+  /**
+  * This is a javadoc
+  */
+  public void method() {}
+  
+  ```
+
 - 静态常量，大写下划线：`public static final int SOME_CONSTANT = 42;`
 
 # 代码块化
+
 一个方法，或一段代码段，保持块状，并且尽量不要在一个方法里写的过多，充分将功能分块
 
 ```java
@@ -148,7 +164,8 @@ max(int a, int b) {
 }
 
 ```
----
+
+------
 
 # 项目结构、包名
 
@@ -163,6 +180,7 @@ or
 - 或者把所有 activity 放最外层，Application等 还是放 com.example.app
 
 ### 以下包名只是参考，同意、类似的即可
+
 - com.example.fragments
 - com.example.webservice/com.example.web // 网络请求相关
 - com.example.adapter
@@ -174,16 +192,19 @@ or
 - com.example.animation 
 
 ### 包名下面还可以建子包
+
 例如: com.example.webservice.request \ com.example.webservice.response
 
 # XML 文件命名约定
+
 - activity_
 - fragment_
-- row_ // 自定义ListView的Item，偶尔见到有使用 item_
+- item_ // 自定义RecyclerView的Item
 - dialog_ 
 - layout_ // 重用布局时候
 
 # XML 文件里面View的Id约定
+
 很多时候项目中并没有对id的命名有特殊约定，所以常见会有三种：
 
 1. 通用，直接根据控件要代表的事物取名，`@+id/name` `@+id/card_list`
@@ -197,7 +218,9 @@ or
 - 3 - 筛选的更加精确，并可以区别大致所在位置，但是命名太过繁琐
 
 *很多情况下 2 就可以满足我们需要，但是以所有人约定为准*
->
+
+> 
+
 - Button - btn
 - EditText - et
 - TextView - tv
@@ -212,16 +235,19 @@ or
 - RelativeLayout - rl
 
 # 资源文件命名
+
 可以采用 <类型> _ <控件类型> _ <意义>.png 形式
 
 eg.
- 
+
 ```java
 ic_back.png
-bg_btn_back.png
+bg_back.png
+
 ```
 
-# Java 成员变量名约定
+# 成员变量名约定
+
 并没有特别的约定，可以直接用mBack、mBackBtn、mBackButton 类似的形式
 如果比较在意控件类型，或者说控件同意非同类，偏向使用后面两种 mBackButton, mBackTextView
 
